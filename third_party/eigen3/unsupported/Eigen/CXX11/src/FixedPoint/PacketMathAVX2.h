@@ -7,26 +7,22 @@
 
 inline int _mm256_extract_epi16_N0(const __m256i X)
 {
-	__m128i __Y( _mm256_extractf128_si256(X, 0 >> 3));
-	return _mm_extract_epi16(__Y, 0 % 8);
+	return _mm_extract_epi16(_mm256_extractf128_si256(X, 0 >> 3), 0 % 8);
 }
 
 inline int _mm256_extract_epi16_N1(const __m256i X)
 {
-	__m128i __Y(_mm256_extractf128_si256(X, 1 >> 3));
-	return _mm_extract_epi16(__Y, 1 % 8);
+	return _mm_extract_epi16(_mm256_extractf128_si256(X, 1 >> 3), 1 % 8);
 }
 
-inline int _mm256_extract_epi8_N0(const __m256i X)						
-{ 
-	__m128i __Y = _mm256_extractf128_si256((X), 0 >> 4);		
-	return _mm_extract_epi8(__Y, 0 % 16);
+inline int _mm256_extract_epi8_N0(const __m256i X)
+{
+	return _mm_extract_epi8(_mm256_extractf128_si256((X), 0 >> 4), 0 % 16);
 }
 
 inline int _mm256_extract_epi8_N1(const __m256i X)
 {
-	__m128i __Y = _mm256_extractf128_si256((X), 1 >> 4);
-	return _mm_extract_epi8(__Y, 1 % 16);
+	return _mm_extract_epi8(_mm256_extractf128_si256((X), 1 >> 4), 1 % 16);
 }
 
 namespace Eigen {
