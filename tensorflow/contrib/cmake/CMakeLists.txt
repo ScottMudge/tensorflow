@@ -86,10 +86,9 @@ endif()
 
 if (tensorflow_OPTIMIZE_FOR_NATIVE_ARCH)
   include(CheckCXXCompilerFlag)
-  CHECK_CXX_COMPILER_FLAG("-march=native" COMPILER_OPT_ARCH_NATIVE_SUPPORTED)
-  if (COMPILER_OPT_ARCH_NATIVE_SUPPORTED)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
-  endif()
+	if (tensorflow_OPTIMIZE_FOR_NATIVE_ARCH)
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /arch:AVX /arch:AVX2")
+	endif()
 endif()
 
 # MSVC SIMD instructions
