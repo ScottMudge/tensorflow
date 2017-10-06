@@ -46,6 +46,12 @@ add_dependencies(tf_cc_op_gen_main tf_core_framework)
 
 # create directory for ops generated files
 set(cc_ops_target_dir ${CMAKE_CURRENT_BINARY_DIR}/tensorflow/cc/ops)
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+	set(lib_dir $(ProjectDir)/Debug)
+	else()
+	set(lib_dir $(ProjectDir)/Release)
+endif()
+
 
 add_custom_target(create_cc_ops_header_dir
     COMMAND ${CMAKE_COMMAND} -E make_directory ${cc_ops_target_dir}
@@ -136,7 +142,7 @@ list(REMOVE_ITEM tf_cc_srcs ${tf_cc_test_srcs})
 add_library(tf_cc OBJECT ${tf_cc_srcs})
 add_dependencies(tf_cc tf_cc_framework tf_cc_ops)
 
-set (pywrap_tensorflow_lib "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}/pywrap_tensorflow_internal.lib")
+set (pywrap_tensorflow_lib "${CMAKE_CURRENT_BINARY_DIR}/$(Configuration)/pywrap_tensorflow_internal.lib")
 add_custom_target(tf_extension_ops)
 
 function(AddUserOps)
@@ -151,7 +157,7 @@ function(AddUserOps)
   endif()
   # create shared library from source and cuda obj
   add_library(${_AT_TARGET} SHARED ${_AT_SOURCES} ${gpu_lib})
-  target_link_libraries(${_AT_TARGET} ${pywrap_tensorflow_lib})
+  target_link_libraries(${_AT_TARGET} ${lib_dir}/pywrap_tensorflow_internal.lib)
   if(WIN32)
     if (tensorflow_ENABLE_GPU AND _AT_GPUSOURCES)
         # some ops call out to cuda directly; need to link libs for the cuda dlls
